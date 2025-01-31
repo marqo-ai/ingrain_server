@@ -49,11 +49,22 @@ def generate_text_clip_config(
     name: str,
     context_length: int,
     embedding_dim: int,
+    max_batch_size: int = MAX_BATCH_SIZE,
+    max_queue_delay_microseconds: int = 0,
+    instance_group_count: int = 1,
+
 ) -> None:
     config = f"""
 name: "{name}"
 platform: "onnxruntime_onnx"
-max_batch_size: {MAX_BATCH_SIZE}
+max_batch_size: {max_batch_size}
+instance_group [
+    {{
+        count: {instance_group_count}
+        kind: KIND_GPU
+        gpus: [0]
+    }}
+]
 input [
   {{
     name: "input"
@@ -68,7 +79,9 @@ output [
         dims: [ {embedding_dim} ]
     }}
 ]
-dynamic_batching {{}}"""
+dynamic_batching {{
+    max_queue_delay_microseconds: {max_queue_delay_microseconds}
+}}"""
     with open(os.path.join(cfg_path, "config.pbtxt"), "w") as f:
         f.write(config)
 

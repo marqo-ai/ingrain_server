@@ -63,6 +63,9 @@ def create_model_and_transforms_triton(
     pretrained: Union[str, None],
     triton_model_repository_path: str,
     custom_model_dir: str,
+    max_batch_size: int,
+    max_queue_delay_microseconds: int,
+    instance_group_count: int,
 ):
     """Create the model and transforms for Triton.
 
@@ -158,6 +161,9 @@ def create_model_and_transforms_triton(
         friendly_text_name,
         tokenizer.context_length,
         config["embed_dim"],
+        max_batch_size,
+        max_queue_delay_microseconds,
+        instance_group_count,
     )
 
     generate_image_clip_config(
@@ -272,6 +278,9 @@ class TritonCLIPModelClient(TritonModelLoadingClient):
         pretrained: Union[str, None],
         triton_model_repository_path: str,
         custom_model_dir: str,
+        max_batch_size: int = 32,
+        max_queue_delay_microseconds: int = 0,
+        instance_group_count: int = 1,
     ):
         super().__init__(triton_grpc_url)
         self.text_model_name, self.image_model_name = get_text_image_model_names(
@@ -287,7 +296,8 @@ class TritonCLIPModelClient(TritonModelLoadingClient):
                 self.preprocess,
                 self.tokenizer,
             ) = create_model_and_transforms_triton(
-                model, pretrained, triton_model_repository_path, custom_model_dir
+                model, pretrained, triton_model_repository_path, custom_model_dir,
+                max_batch_size, max_queue_delay_microseconds, instance_group_count
             )
             self.triton_client.load_model(self.text_model_name)
             self.triton_client.load_model(self.image_model_name)

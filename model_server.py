@@ -149,6 +149,9 @@ async def load_clip_model(request: OpenCLIPModelRequest) -> GenericMessageRespon
             pretrained=pretrained,
             triton_model_repository_path=TRITON_MODEL_REPOSITORY_PATH,
             custom_model_dir=CUSTOM_MODEL_DIR,
+            max_batch_size=request.maxBatchSize,
+            max_queue_delay_microseconds=request.maxQueueDelayMicroseconds,
+            instance_group_count=request.instanceGroupCount,
         )
         with MODEL_CACHE_LOCK:
             MODEL_CACHE.put(cache_key, client)

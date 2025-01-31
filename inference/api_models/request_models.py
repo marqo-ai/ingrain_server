@@ -47,6 +47,9 @@ class TimmModelRequest(BaseModel):
 class OpenCLIPModelRequest(BaseModel):
     name: str
     pretrained: Optional[str] = None
+    maxBatchSize: Optional[int] = 32
+    maxQueueDelayMicroseconds: Optional[int] = 0
+    instanceGroupCount: Optional[int] = 1
 
 
 class DownloadCustomModelRequest(BaseModel):
