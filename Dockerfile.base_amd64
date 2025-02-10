@@ -33,12 +33,19 @@ ENV TRITON_SERVER_USER=triton-server
 
 RUN userdel tensorrt-server > /dev/null 2>&1 || true && \
     if ! id -u $TRITON_SERVER_USER > /dev/null 2>&1; then \
-        groupadd -g 1000 $TRITON_SERVER_USER || true && \
-        useradd -m -u 1000 -g 1000 $TRITON_SERVER_USER; \
+        EXISTING_USER=$(getent passwd 1000 | cut -d: -f1) && \
+        if [ -n "$EXISTING_USER" ]; then \
+            echo "UID 1000 already in use by $EXISTING_USER, reusing it"; \
+            usermod -l $TRITON_SERVER_USER -d /home/$TRITON_SERVER_USER -m "$EXISTING_USER"; \
+        else \
+            groupadd -g 1000 $TRITON_SERVER_USER || true && \
+            useradd -m -u 1000 -g 1000 $TRITON_SERVER_USER; \
+        fi; \
     fi && \
     id $TRITON_SERVER_USER && \
     test "$(id -u $TRITON_SERVER_USER)" -eq 1000 && \
     test "$(id -g $TRITON_SERVER_USER)" -eq 1000
+
 
 
 # Ensure apt-get won't prompt for selecting options
