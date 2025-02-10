@@ -84,7 +84,7 @@ dynamic_batching {{
 optimization {{ execution_accelerators {{
   gpu_execution_accelerator : [ {{
     name : "openvino"
-    }}
+    }}]
 }}
 """
     with open(os.path.join(cfg_path, "config.pbtxt"), "w") as f:
