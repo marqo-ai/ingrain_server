@@ -1,5 +1,5 @@
 # ARG to specify the base image
-ARG BASE_IMAGE=owenpelliott/ingrain-base:amd64
+ARG BASE_IMAGE=li/ingrain-base:test
 
 # Use the base image specified in the build argument
 FROM ${BASE_IMAGE}
