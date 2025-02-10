@@ -52,7 +52,6 @@ def generate_text_clip_config(
     max_batch_size: int = MAX_BATCH_SIZE,
     max_queue_delay_microseconds: int = 0,
     instance_group_count: int = 1,
-
 ) -> None:
     config = f"""
 name: "{name}"
@@ -65,6 +64,13 @@ instance_group [
         gpus: [0]
     }}
 ]
+optimization {{ execution_accelerators {{
+  gpu_execution_accelerator : [ {{
+    name : "tensorrt"
+    parameters {{ key: "precision_mode" value: "FP16" }}
+    parameters {{ key: "max_workspace_size_bytes" value: "1073741824" }}
+    }}]
+}}
 input [
   {{
     name: "input"
