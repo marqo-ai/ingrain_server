@@ -31,7 +31,7 @@ ENV TRITON_SERVER_GPU_ENABLED    1
 # artifacts copied below are assign to this user.
 ENV TRITON_SERVER_USER=triton-server
 RUN userdel tensorrt-server || true \
-      && if ! id -u $TRITON_SERVER_USER > /dev/null 2>&1 ; then \
+      && if ! id -u $TRITON_SERVER_USER ; then \
           useradd $TRITON_SERVER_USER; \
         fi \
       && [ `id -u $TRITON_SERVER_USER` -eq 1000 ] \
