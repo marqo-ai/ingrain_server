@@ -86,6 +86,7 @@ optimization {{ execution_accelerators {{
     name : "openvino"
     }}]
 }}
+}}
 """
     with open(os.path.join(cfg_path, "config.pbtxt"), "w") as f:
         f.write(config)
