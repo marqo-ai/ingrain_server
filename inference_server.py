@@ -262,7 +262,9 @@ async def infer(request: InferenceRequest) -> InferenceResponse:
             )
         if isinstance(images, str):
             images = [images]
-        image_datas = images
+        image_datas = client.load_images_parallel(
+            images, image_download_headers=image_download_headers
+        )
         tasks.append(
             asyncio.to_thread(client.encode_image, image_datas, normalize, n_dims)
         )
