@@ -171,6 +171,9 @@ def create_model_and_transforms_triton(
         friendly_image_name,
         (3, *model.visual.preprocess_cfg["size"]),
         config["embed_dim"],
+        max_batch_size,
+        max_queue_delay_microseconds,
+        instance_group_count,
     )
 
     save_library_name(
