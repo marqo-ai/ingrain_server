@@ -99,6 +99,13 @@ def generate_image_clip_config(
 name: "{name}"
 platform: "onnxruntime_onnx"
 max_batch_size: {max_batch_size}
+instance_group [
+    {{
+        count: {instance_group_count}
+        kind: KIND_GPU
+        gpus: [0]
+    }}
+]
 input [
   {{
     name: "input"
