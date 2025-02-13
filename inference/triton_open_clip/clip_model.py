@@ -244,15 +244,7 @@ class TritonCLIPInferenceClient(TritonModelInferenceClient):
         if isinstance(image, Image.Image):
             image = [image]
 
-        # random_array = np.random.randint(0, 256, (1000, 800, 3), dtype=np.uint8)
-        # Image.fromarray(random_array)
-        #
-        # raw_images = np.random.rand(len(image), 600, 600).astype(np.float32)
-
-        processed_images = np.stack([self.preprocess(Image.fromarray(
-            np.random.randint(0, 256, (1000, 2000, 3), dtype=np.uint8))).numpy() for _ in image])
-
-        # outputs = np.random.rand(len(image), 512).astype(np.float32)
+        processed_images = np.stack([self.preprocess(image).numpy() for image in image])
 
         image_inputs = grpcclient.InferInput("input", processed_images.shape, "FP32")
         image_inputs.set_data_from_numpy(processed_images)
