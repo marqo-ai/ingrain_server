@@ -1,4 +1,7 @@
 import os
+from csv import excel
+from logging import exception
+
 import open_clip
 from open_clip.transform import image_transform_v2
 from open_clip.transform import PreprocessCfg
@@ -245,7 +248,7 @@ class TritonCLIPInferenceClient(TritonModelInferenceClient):
             image = [image]
 
         processed_images = np.stack([self.preprocess(image).numpy() for image in image])
-        print(processed_images)
+        raise Exception(processed_images)
 
         image_inputs = grpcclient.InferInput("input", processed_images.shape, "FP32")
         image_inputs.set_data_from_numpy(processed_images)
