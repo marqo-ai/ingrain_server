@@ -50,7 +50,7 @@ def create_transforms(
             preprocessor_config.update(model_meta)
 
     preprocess = image_transform_v2(
-        cfg=PreprocessCfg(**preprocessor_config),
+        cfg=PreprocessCfg(),
         is_train=False,
     )
 
