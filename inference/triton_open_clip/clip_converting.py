@@ -81,6 +81,14 @@ output [
 dynamic_batching {{
     max_queue_delay_microseconds: {max_queue_delay_microseconds}
 }}
+optimization {{ execution_accelerators {{
+  gpu_execution_accelerator : [ {{
+    name : "tensorrt"
+    parameters {{ key: "precision_mode" value: "FP16" }}
+    parameters {{ key: "max_workspace_size_bytes" value: "1073741824" }}
+    }}]
+}}
+}}
 """
     with open(os.path.join(cfg_path, "config.pbtxt"), "w") as f:
         f.write(config)
@@ -123,7 +131,16 @@ output [
 ]
 dynamic_batching {{
     max_queue_delay_microseconds: {max_queue_delay_microseconds}
-}}"""
+}}
+optimization {{ execution_accelerators {{
+  gpu_execution_accelerator : [ {{
+    name : "tensorrt"
+    parameters {{ key: "precision_mode" value: "FP16" }}
+    parameters {{ key: "max_workspace_size_bytes" value: "1073741824" }}
+    }}]
+}}
+}}
+"""
     with open(os.path.join(cfg_path, "config.pbtxt"), "w") as f:
         f.write(config)
 
