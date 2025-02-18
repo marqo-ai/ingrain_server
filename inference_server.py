@@ -201,7 +201,9 @@ async def infer_image(request: ImageInferenceRequest) -> ImageInferenceResponse:
     if isinstance(images, str):
         images = [images]
 
-    image_data = images
+    image_data = client.load_images_parallel(
+        images, image_download_headers=image_download_headers
+    )
 
     if image_data is None:
         raise HTTPException(
