@@ -60,3 +60,8 @@ class ModelStats(BaseModel):
 
 class MetricsResponse(BaseModel):
     modelStats: List[ModelStats]
+
+
+class VectoriseResponse(BaseModel):
+    embeddings: List[List[float]]
+    vectorise_time: float

@@ -6,6 +6,7 @@ from inference.api_models.request_models import (
     InferenceRequest,
     TextInferenceRequest,
     ImageInferenceRequest,
+    VectoriseRequest,
 )
 from inference.api_models.response_models import (
     InferenceResponse,
@@ -13,6 +14,7 @@ from inference.api_models.response_models import (
     ImageInferenceResponse,
     GenericMessageResponse,
     MetricsResponse,
+    VectoriseResponse,
 )
 from inference.triton_open_clip.clip_model import TritonCLIPInferenceClient
 from inference.triton_sentence_transformers.sentence_transformer_model import (
@@ -145,6 +147,40 @@ def client_from_cache(model_name: str, pretrained: Union[str, None]) -> Union[
 
     # if the model isn't ready, and the worker doesn't have it in cache, return None
     return None
+
+
+@app.post("/vectorise")
+async def vectorise(request: VectoriseRequest):
+    if VectoriseRequest.modality.lower() == "text":
+        res: TextInferenceResponse = await infer_text(
+            TextInferenceRequest(
+                name="ViT-B-32",
+                pretrained="laion2b_s34b_b79k",
+                text=request.content,
+                normalize=True,
+                n_dims=512
+            )
+        )
+        return VectoriseResponse(embeddings=res.embeddings, vectorise_time=res.processingTimeMs / 1000)
+    elif VectoriseRequest.modality.lower() == "image":
+        res: ImageInferenceResponse = await infer_image(
+            ImageInferenceRequest(
+                name="ViT-B-32",
+                pretrained="laion2b_s34b_b79k",
+                text=request.content,
+                normalize=True,
+                n_dims=512
+            )
+        )
+        return VectoriseResponse(embeddings=res.embeddings, vectorise_time=res.processingTimeMs / 1000)
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail='Invalid modality. Please provide a valid modality. Must be "text" or "image".',
+        )
+
+
+
 
 
 @app.get("/health")

@@ -70,3 +70,12 @@ class DownloadCustomModelRequest(BaseModel):
     interpolation: Optional[str] = None  # open_clip
     resize_mode: Optional[str] = None  # open_clip
     num_classes: Optional[int] = None  # timm
+
+
+class VectoriseRequest(BaseModel):
+    model_name: str
+    model_properties: dict
+    modality: str
+    normalize_embeddings: bool = True
+    content: Optional[Union[str, List[str]]]
+    media_download_headers: Optional[dict] = None
