@@ -41,23 +41,12 @@ def create_transforms(
         Tuple: The text and image model names, preprocess function, and tokenizer.
     """
     preprocessor_config = PREPROCESS_CONFIGS[model_name]
-    if custom_model_exists(custom_model_dir, pretrained):
-        with open(
-            os.path.join(custom_model_dir, pretrained, "_ingrain_model_meta.json"), "r"
-        ) as f:
-            model_meta = json.load(f)
-            del model_meta["model_type"]
-            preprocessor_config.update(model_meta)
-
     preprocess = image_transform_v2(
-        cfg=PreprocessCfg(),
+        cfg=PreprocessCfg(**preprocessor_config),
         is_train=False,
     )
-
     tokenizer = open_clip.get_tokenizer(model_name)
-    friendly_text_name, friendly_image_name = get_text_image_model_names(
-        model_name, pretrained
-    )
+    friendly_text_name, friendly_image_name = get_text_image_model_names(model_name, pretrained)
     return friendly_text_name, friendly_image_name, preprocess, tokenizer
 
 

@@ -152,13 +152,12 @@ def client_from_cache(model_name: str, pretrained: Union[str, None]) -> Union[
 @app.post("/vectorise")
 async def vectorise(request: VectoriseRequest):
     modality = request.modality.lower()
-    print(request)
-
+    # open_clip/ViT-B-16-SigLIP/webli
     if modality == "text" or modality == "language":
         res: TextInferenceResponse = await infer_text(
             TextInferenceRequest(
-                name="ViT-B-32",
-                pretrained="laion2b_s34b_b79k",
+                name="ViT-B-16-SigLIP",
+                pretrained="webli",
                 text=request.content,
                 normalize=True,
                 n_dims=512
@@ -168,8 +167,8 @@ async def vectorise(request: VectoriseRequest):
     elif modality == "image":
         res: ImageInferenceResponse = await infer_image(
             ImageInferenceRequest(
-                name="ViT-B-32",
-                pretrained="laion2b_s34b_b79k",
+                name="ViT-B-16-SigLIP",
+                pretrained="webli",
                 image=request.content,
                 normalize=True,
                 n_dims=512
