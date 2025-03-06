@@ -169,7 +169,7 @@ async def vectorise(request: VectoriseRequest):
             ImageInferenceRequest(
                 name="ViT-B-32",
                 pretrained="laion2b_s34b_b79k",
-                text=request.content,
+                image=request.content,
                 normalize=True,
                 n_dims=512
             )
