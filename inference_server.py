@@ -151,7 +151,9 @@ def client_from_cache(model_name: str, pretrained: Union[str, None]) -> Union[
 
 @app.post("/vectorise")
 async def vectorise(request: VectoriseRequest):
-    if VectoriseRequest.modality.lower() == "text":
+    modality = request.modality.lower()
+
+    if modality == "text":
         res: TextInferenceResponse = await infer_text(
             TextInferenceRequest(
                 name="ViT-B-32",
@@ -162,7 +164,7 @@ async def vectorise(request: VectoriseRequest):
             )
         )
         return VectoriseResponse(embeddings=res.embeddings, vectorise_time=res.processingTimeMs / 1000)
-    elif VectoriseRequest.modality.lower() == "image":
+    elif modality == "image":
         res: ImageInferenceResponse = await infer_image(
             ImageInferenceRequest(
                 name="ViT-B-32",
