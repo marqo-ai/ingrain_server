@@ -180,9 +180,6 @@ async def vectorise(request: VectoriseRequest):
         )
 
 
-
-
-
 @app.get("/health")
 async def health() -> GenericMessageResponse:
     return {"message": "The inference server is running."}
