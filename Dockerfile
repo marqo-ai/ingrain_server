@@ -14,7 +14,7 @@ WORKDIR /app
 COPY requirements.txt /app
 
 # Install Python dependencies
-RUN install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY . /app
