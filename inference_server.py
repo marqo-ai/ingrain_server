@@ -152,6 +152,7 @@ def client_from_cache(model_name: str, pretrained: Union[str, None]) -> Union[
 @app.post("/vectorise")
 async def vectorise(request: VectoriseRequest):
     modality = request.modality.lower()
+    print(request)
 
     if modality == "text":
         res: TextInferenceResponse = await infer_text(
