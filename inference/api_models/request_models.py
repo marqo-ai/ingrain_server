@@ -73,8 +73,6 @@ class DownloadCustomModelRequest(BaseModel):
 
 
 class VectoriseRequest(BaseModel):
-    model_name: str
-    model_properties: dict
     modality: str
     normalize_embeddings: bool = True
     content: Optional[Union[str, List[str]]]
