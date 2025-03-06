@@ -163,7 +163,7 @@ async def vectorise(request: VectoriseRequest):
                 n_dims=512
             )
         )
-        return VectoriseResponse(embeddings=res.embeddings, vectorise_time=res.processingTimeMs / 1000)
+        return VectoriseResponse(embeddings=res["embeddings"], vectorise_time=res["processingTimeMs"] / 1000)
     elif modality == "image":
         res: ImageInferenceResponse = await infer_image(
             ImageInferenceRequest(
@@ -174,7 +174,7 @@ async def vectorise(request: VectoriseRequest):
                 n_dims=512
             )
         )
-        return VectoriseResponse(embeddings=res.embeddings, vectorise_time=res.processingTimeMs / 1000)
+        return VectoriseResponse(embeddings=res["embeddings"], vectorise_time=res["processingTimeMs"] / 1000)
     else:
         raise HTTPException(
             status_code=400,
