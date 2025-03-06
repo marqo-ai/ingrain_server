@@ -154,7 +154,7 @@ async def vectorise(request: VectoriseRequest):
     modality = request.modality.lower()
     print(request)
 
-    if modality == "text":
+    if modality == "text" or modality == "language":
         res: TextInferenceResponse = await infer_text(
             TextInferenceRequest(
                 name="ViT-B-32",
