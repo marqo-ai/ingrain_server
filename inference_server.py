@@ -160,7 +160,7 @@ async def vectorise(request: VectoriseRequest):
                 pretrained="webli",
                 text=request.content,
                 normalize=True,
-                n_dims=512
+                n_dims=768
             )
         )
         return VectoriseResponse(embeddings=res["embeddings"], vectorise_time=res["processingTimeMs"] / 1000)
@@ -171,7 +171,7 @@ async def vectorise(request: VectoriseRequest):
                 pretrained="webli",
                 image=request.content,
                 normalize=True,
-                n_dims=512
+                n_dims=768
             )
         )
         return VectoriseResponse(embeddings=res["embeddings"], vectorise_time=res["processingTimeMs"] / 1000)
