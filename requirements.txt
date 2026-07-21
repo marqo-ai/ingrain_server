@@ -4,7 +4,7 @@ open-clip-torch==2.29.0
 hf_transfer==0.1.8
 torch==2.5.0 --extra-index-url https://download.pytorch.org/whl/cpu
 torchvision==0.20.0 --extra-index-url https://download.pytorch.org/whl/cpu
-pillow==10.4.0
+pillow==12.3.0
 pycurl==7.45.3
 fastapi==0.115.2
 uvicorn==0.32.0
